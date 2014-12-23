@@ -1,0 +1,7 @@
+{
+    "require": {
+        "aws/aws-sdk-php": "~2.7",
+        "reinink/glide": "dev-master",
+        "symfony/http-foundation": "~2.6"
+    }
+}
