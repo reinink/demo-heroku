@@ -1,17 +1,30 @@
 <?php
 
+use Glide\Interfaces\ErrorPageException;
+use Symfony\Component\HttpFoundation\Request;
+
 try {
+    // Include vendor dependencies
     include 'vendor/autoload.php';
 
-    $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+    // Create request object
+    $request = Request::createFromGlobals();
 
-    $glide = new Glide\Server('images', 'cache');
-    $glide->setMaxImageSize(2000*2000);
+    // Configure Glide server
+    $glide = Glide\Factory::server([
+        'source' => 'images',
+        'cache' => 'cache',
+        'max_image_size' => 2000*2000,
+    ]);
+
+    // Output image based on current URL
     $glide->output(
         $request->getPathInfo(),
         $request->query->all()
     );
 
+} catch (ErrorPageException $e) {
+    echo $e->generateErrorPage();
 } catch (Exception $e) {
     echo $e->getMessage();
 }

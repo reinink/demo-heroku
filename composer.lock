@@ -315,17 +315,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reinink/glide.git",
-                "reference": "0ec4b469401c2c4accd39bbf906598ff788f8e63"
+                "reference": "0912c3b935995de69cfc4f0a8f748506a9d7c1c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reinink/glide/zipball/0ec4b469401c2c4accd39bbf906598ff788f8e63",
-                "reference": "0ec4b469401c2c4accd39bbf906598ff788f8e63",
+                "url": "https://api.github.com/repos/reinink/glide/zipball/0912c3b935995de69cfc4f0a8f748506a9d7c1c2",
+                "reference": "0912c3b935995de69cfc4f0a8f748506a9d7c1c2",
                 "shasum": ""
             },
             "require": {
                 "intervention/image": "~2.0",
-                "league/flysystem": "~0.5"
+                "league/flysystem": "~0.5",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.4"
             },
             "type": "library",
             "autoload": {
@@ -355,7 +360,7 @@
                 "manipulation",
                 "processing"
             ],
-            "time": "2014-12-23 21:15:04"
+            "time": "2014-12-28 04:19:51"
         },
         {
             "name": "symfony/event-dispatcher",
