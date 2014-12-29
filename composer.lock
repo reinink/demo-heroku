@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6963fc30bf79b84bff34eed2ff15a24d",
+    "hash": "e162d596faeed3cf0c3fdf8ea1e3b07b",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -315,18 +315,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/reinink/glide.git",
-                "reference": "63379da5e97a6ce1c43cea4f7a849de30cd6bd75"
+                "reference": "adce16c14afa1aff6c529a13e3b0d8530a8fee3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reinink/glide/zipball/63379da5e97a6ce1c43cea4f7a849de30cd6bd75",
-                "reference": "63379da5e97a6ce1c43cea4f7a849de30cd6bd75",
+                "url": "https://api.github.com/repos/reinink/glide/zipball/adce16c14afa1aff6c529a13e3b0d8530a8fee3d",
+                "reference": "adce16c14afa1aff6c529a13e3b0d8530a8fee3d",
                 "shasum": ""
             },
             "require": {
                 "intervention/image": "~2.0",
                 "league/flysystem": "~0.5",
-                "php": ">=5.4"
+                "php": ">=5.4",
+                "symfony/http-foundation": "~2.3"
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
@@ -360,7 +361,7 @@
                 "manipulation",
                 "processing"
             ],
-            "time": "2014-12-29 13:10:30"
+            "time": "2014-12-29 21:47:44"
         },
         {
             "name": "symfony/event-dispatcher",
