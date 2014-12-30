@@ -18,13 +18,11 @@ try {
     ]);
 
     // Output image based on current URL
-    $glide->output(
+    $glide->outputImage(
         $request->getPathInfo(),
         $request->query->all()
     );
 
-} catch (ErrorPageException $e) {
-    echo $e->generateErrorPage();
 } catch (Exception $e) {
     echo $e->getMessage();
 }
