@@ -1,6 +1,6 @@
 <?php
 
-use Glide\Interfaces\ErrorPageException;
+use League\Glide\Factory as GlideFactory;
 use Symfony\Component\HttpFoundation\Request;
 
 try {
@@ -11,7 +11,7 @@ try {
     $request = Request::createFromGlobals();
 
     // Configure Glide server
-    $glide = Glide\Factory::server([
+    $glide = GlideFactory::server([
         'source' => 'images',
         'cache' => 'cache',
         'max_image_size' => 2000*2000,
@@ -22,7 +22,6 @@ try {
         $request->getPathInfo(),
         $request->query->all()
     );
-
 } catch (Exception $e) {
     echo $e->getMessage();
 }

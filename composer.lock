@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e162d596faeed3cf0c3fdf8ea1e3b07b",
+    "hash": "318a5bfd26d0dcb68cf018d816098f04",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -310,17 +310,17 @@
             "time": "2014-11-05 13:39:29"
         },
         {
-            "name": "reinink/glide",
+            "name": "league/glide",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/reinink/glide.git",
-                "reference": "e4e4a926d213274a1834f60a8683a502ac8b41f2"
+                "url": "https://github.com/thephpleague/glide.git",
+                "reference": "19dc0065f166dae8931507e20cf05f62524bafbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reinink/glide/zipball/e4e4a926d213274a1834f60a8683a502ac8b41f2",
-                "reference": "e4e4a926d213274a1834f60a8683a502ac8b41f2",
+                "url": "https://api.github.com/repos/thephpleague/glide/zipball/19dc0065f166dae8931507e20cf05f62524bafbc",
+                "reference": "19dc0065f166dae8931507e20cf05f62524bafbc",
                 "shasum": ""
             },
             "require": {
@@ -336,7 +336,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Glide\\": "src/"
+                    "League\\Glide\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -350,18 +350,19 @@
                     "homepage": "http://reinink.ca"
                 }
             ],
-            "description": "Adjust, resize and add effects to images using a simple URL based API.",
-            "homepage": "https://github.com/reinink/glide",
+            "description": "Wonderfully easy on-demand image manipulation library with an HTTP based API.",
+            "homepage": "https://github.com/thephpleague/glide",
             "keywords": [
                 "ImageMagick",
                 "editing",
                 "gd",
                 "image",
                 "imagick",
+                "league",
                 "manipulation",
                 "processing"
             ],
-            "time": "2014-12-30 22:01:31"
+            "time": "2015-01-03 16:29:12"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -479,9 +480,10 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "reinink/glide": 20
+        "league/glide": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "ext-exif": "*",
         "ext-gd": "*"
