@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "318a5bfd26d0dcb68cf018d816098f04",
+    "hash": "41a629770489cfd8790846a64a7e1ebe",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -311,16 +311,16 @@
         },
         {
             "name": "league/glide",
-            "version": "dev-master",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/glide.git",
-                "reference": "6fcc503ae48096c103c6416a03346d60cabae52d"
+                "reference": "c3311af98dc31f06042dc843ffa8333477b099ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/glide/zipball/6fcc503ae48096c103c6416a03346d60cabae52d",
-                "reference": "6fcc503ae48096c103c6416a03346d60cabae52d",
+                "url": "https://api.github.com/repos/thephpleague/glide/zipball/c3311af98dc31f06042dc843ffa8333477b099ec",
+                "reference": "c3311af98dc31f06042dc843ffa8333477b099ec",
                 "shasum": ""
             },
             "require": {
@@ -335,6 +335,11 @@
                 "phpunit/phpunit": "~4.4"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "League\\Glide\\": "src/"
@@ -363,7 +368,7 @@
                 "manipulation",
                 "processing"
             ],
-            "time": "2015-01-05 18:29:03"
+            "time": "2015-01-06 16:20:35"
         },
         {
             "name": "psr/log",
@@ -649,9 +654,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "league/glide": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

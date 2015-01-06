@@ -3,6 +3,6 @@
         "aws/aws-sdk-php": "~2.7",
         "ext-exif": "*",
         "ext-gd": "*",
-        "league/glide": "dev-master"
+        "league/glide": "0.1.*"
     }
 }
