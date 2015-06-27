@@ -1,0 +1,7 @@
+{
+    "require": {
+        "league/glide": "dev-develop",
+        "league/glide-symfony": "^1.0@dev"
+    },
+    "minimum-stability": "dev"
+}
