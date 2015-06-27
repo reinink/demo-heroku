@@ -9,7 +9,6 @@ try {
         'source' => '../images',
         'cache' => '../images/.cache/1.0',
         'response' => new League\Glide\Responses\SymfonyResponseFactory(),
-        'base_url' => 'img',
         'max_image_size' => 2000 * 2000,
     ]);
 
