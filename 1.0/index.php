@@ -11,6 +11,7 @@ try {
     $server = League\Glide\ServerFactory::create([
         'source' => '../images',
         'cache' => '../images/.cache/1.0',
+        'watermarks' => '../images',
         'response' => new League\Glide\Responses\SymfonyResponseFactory(),
         'max_image_size' => 2000 * 2000,
     ]);
