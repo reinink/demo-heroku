@@ -1,5 +1,11 @@
 language: php
 
+sudo: false
+
+env:
+  - COMPOSER_OPTS=""
+  - COMPOSER_OPTS="--prefer-lowest"
+
 php:
   - 5.4
   - 5.5
@@ -7,18 +13,18 @@ php:
   - 7.0
   - hhvm
 
-sudo: false
+cache:
+  directories:
+    - $HOME/.composer/cache
 
-env:
-  - COMPOSER_OPTS=""
-  - COMPOSER_OPTS="--prefer-lowest"
-
-before_script:
+before_install:
   - travis_retry composer self-update
-  - travis_retry composer update $COMPOSER_OPTS
+
+install:
+  - travis_retry composer update --no-interaction --prefer-source
 
 script:
-  - php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  - phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar

@@ -4,6 +4,9 @@ namespace League\Glide\Manipulators;
 
 use Intervention\Image\Image;
 
+/**
+ * @property string $blur
+ */
 class Blur extends BaseManipulator
 {
     /**
@@ -15,7 +18,7 @@ class Blur extends BaseManipulator
     {
         $blur = $this->getBlur();
 
-        if ($blur) {
+        if ($blur !== null) {
             $image->blur($blur);
         }
 

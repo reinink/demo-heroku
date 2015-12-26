@@ -6,6 +6,10 @@ use Intervention\Image\Image;
 use League\Glide\Manipulators\Helpers\Color;
 use League\Glide\Manipulators\Helpers\Dimension;
 
+/**
+ * @property string $border
+ * @property string $dpr
+ */
 class Border extends BaseManipulator
 {
     /**
@@ -57,10 +61,11 @@ class Border extends BaseManipulator
     }
 
     /**
-     * Get a dimension.
-     * @param  Image       $image The source image.
-     * @param  string      $field The requested field.
-     * @return double|null The dimension.
+     * Get border width.
+     * @param  Image  $image The source image.
+     * @param  double $dpr   The device pixel ratio.
+     * @param  string $width The border width.
+     * @return double The resolved border width.
      */
     public function getWidth(Image $image, $dpr, $width)
     {

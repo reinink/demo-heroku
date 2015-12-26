@@ -25,17 +25,71 @@ class WatermarkTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('League\Glide\Manipulators\Watermark', $this->manipulator);
     }
 
+    public function testSetWatermarks()
+    {
+        $this->manipulator->setWatermarks(Mockery::mock('League\Flysystem\FilesystemInterface'));
+        $this->assertInstanceOf('League\Flysystem\FilesystemInterface', $this->manipulator->getWatermarks());
+    }
+
+    public function testGetWatermarks()
+    {
+        $this->assertInstanceOf('League\Flysystem\FilesystemInterface', $this->manipulator->getWatermarks());
+    }
+
+    public function testSetWatermarksPathPrefix()
+    {
+        $this->manipulator->setWatermarksPathPrefix('watermarks/');
+        $this->assertEquals('watermarks', $this->manipulator->getWatermarksPathPrefix());
+    }
+
+    public function testGetWatermarksPathPrefix()
+    {
+        $this->assertEquals('', $this->manipulator->getWatermarksPathPrefix());
+    }
+
+    public function testRun()
+    {
+        $image = Mockery::mock('Intervention\Image\Image', function ($mock) {
+            $mock->shouldReceive('insert')->once();
+            $mock->shouldReceive('getDriver')->andReturn(Mockery::mock('Intervention\Image\AbstractDriver', function ($mock) {
+                $mock->shouldReceive('init')->with('content')->andReturn(Mockery::mock('Intervention\Image\Image', function ($mock) {
+                    $mock->shouldReceive('width')->andReturn(0)->once();
+                    $mock->shouldReceive('resize')->once();
+                }))->once();
+            }))->once();
+        });
+
+        $this->manipulator->setWatermarks(Mockery::mock('League\Flysystem\FilesystemInterface', function ($watermarks) {
+            $watermarks->shouldReceive('has')->with('image.jpg')->andReturn(true)->once();
+            $watermarks->shouldReceive('read')->with('image.jpg')->andReturn('content')->once();
+        }));
+
+        $this->manipulator->setParams([
+            'mark' => 'image.jpg',
+            'markw' => '100',
+            'markh' => '100',
+            'markpad' => '10',
+        ]);
+
+        $this->assertInstanceOf(
+            'Intervention\Image\Image',
+            $this->manipulator->run($image)
+        );
+    }
+
     public function testGetImage()
     {
         $this->manipulator->getWatermarks()
             ->shouldReceive('has')
-                ->with('image.jpg')
+                ->with('watermarks/image.jpg')
                 ->andReturn(true)
                 ->once()
             ->shouldReceive('read')
-                ->with('image.jpg')
+                ->with('watermarks/image.jpg')
                 ->andReturn('content')
                 ->once();
+
+        $this->manipulator->setWatermarksPathPrefix('watermarks');
 
         $driver = Mockery::mock('Intervention\Image\AbstractDriver');
         $driver->shouldReceive('init')
@@ -51,6 +105,51 @@ class WatermarkTest extends \PHPUnit_Framework_TestCase
         $this->manipulator->setParams(['mark' => 'image.jpg'])->getImage($image);
     }
 
+    public function testGetImageWithUnreadableSource()
+    {
+        $this->manipulator->getWatermarks()
+            ->shouldReceive('has')
+                ->with('image.jpg')
+                ->andReturn(true)
+                ->once()
+            ->shouldReceive('read')
+                ->with('image.jpg')
+                ->andReturn(false)
+                ->once();
+
+        $image = Mockery::mock('Intervention\Image\Image');
+
+        $this->setExpectedException(
+            'League\Glide\Filesystem\FilesystemException',
+            'Could not read the image `image.jpg`.'
+        );
+
+        $this->manipulator->setParams(['mark' => 'image.jpg'])->getImage($image);
+    }
+
+    public function testGetImageWithoutMarkParam()
+    {
+        $image = Mockery::mock('Intervention\Image\Image');
+
+        $this->assertNull($this->manipulator->getImage($image));
+    }
+
+    public function testGetImageWithEmptyMarkParam()
+    {
+        $image = Mockery::mock('Intervention\Image\Image');
+
+        $this->assertNull($this->manipulator->setParams(['mark' => ''])->getImage($image));
+    }
+
+    public function testGetImageWithoutWatermarksFilesystem()
+    {
+        $this->manipulator->setWatermarks(null);
+
+        $image = Mockery::mock('Intervention\Image\Image');
+
+        $this->assertNull($this->manipulator->setParams(['mark' => 'image.jpg'])->getImage($image));
+    }
+
     public function testGetDimension()
     {
         $image = Mockery::mock('Intervention\Image\Image');
@@ -64,6 +163,14 @@ class WatermarkTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $this->manipulator->setParams(['w' => '101h'])->getDimension($image, 'w'));
         $this->assertSame(null, $this->manipulator->setParams(['w' => -1])->getDimension($image, 'w'));
         $this->assertSame(null, $this->manipulator->setParams(['w' => ''])->getDimension($image, 'w'));
+    }
+
+    public function testGetDpr()
+    {
+        $this->assertSame(1.0, $this->manipulator->setParams(['dpr' => 'invalid'])->getDpr());
+        $this->assertSame(1.0, $this->manipulator->setParams(['dpr' => '-1'])->getDpr());
+        $this->assertSame(1.0, $this->manipulator->setParams(['dpr' => '9'])->getDpr());
+        $this->assertSame(2.0, $this->manipulator->setParams(['dpr' => '2'])->getDpr());
     }
 
     public function testGetFit()

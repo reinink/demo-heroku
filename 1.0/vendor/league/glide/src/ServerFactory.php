@@ -33,158 +33,143 @@ class ServerFactory
     protected $config;
 
     /**
-     * Create server factory instance.
+     * Create ServerFactory instance.
      * @param array $config Configuration parameters.
      */
-    public function __construct(array $config)
+    public function __construct(array $config = [])
     {
         $this->config = $config;
     }
 
     /**
-     * Create server instance.
-     * @return Server The configured Glide server.
+     * Get configured server.
+     * @return Server Configured Glide server.
      */
     public function getServer()
     {
         $server = new Server(
             $this->getSource(),
             $this->getCache(),
-            $this->getApi(),
-            $this->getResponseFactory()
+            $this->getApi()
         );
 
         $server->setSourcePathPrefix($this->getSourcePathPrefix());
         $server->setCachePathPrefix($this->getCachePathPrefix());
+        $server->setGroupCacheInFolders($this->getGroupCacheInFolders());
+        $server->setDefaults($this->getDefaults());
+        $server->setPresets($this->getPresets());
         $server->setBaseUrl($this->getBaseUrl());
+        $server->setResponseFactory($this->getResponseFactory());
 
         return $server;
     }
 
     /**
-     * Get the source file system.
-     * @return FilesystemInterface The source file system.
+     * Get source file system.
+     * @return FilesystemInterface Source file system.
      */
     public function getSource()
     {
-        $source = null;
-
-        if (isset($this->config['source'])) {
-            $source = $this->config['source'];
+        if (!isset($this->config['source'])) {
+            throw new InvalidArgumentException('A "source" file system must be set.');
         }
 
-        if (is_string($source)) {
-            return new Filesystem(new Local($source));
+        if (is_string($this->config['source'])) {
+            return new Filesystem(
+                new Local($this->config['source'])
+            );
         }
 
-        if ($source instanceof FilesystemInterface) {
-            return $source;
-        }
-
-        throw new InvalidArgumentException('Invalid `source` parameter.');
+        return $this->config['source'];
     }
 
     /**
-     * Get the watermarks file system.
-     * @return FilesystemInterface The watermarks file system.
+     * Get source path prefix.
+     * @return string|null Source path prefix.
      */
-    public function getWatermarks()
+    public function getSourcePathPrefix()
     {
-        $watermarks = null;
-
-        if (isset($this->config['watermarks'])) {
-            $watermarks = $this->config['watermarks'];
+        if (isset($this->config['source_path_prefix'])) {
+            return $this->config['source_path_prefix'];
         }
-
-        if (is_null($watermarks)) {
-            return;
-        }
-
-        if (is_string($watermarks)) {
-            return new Filesystem(new Local($watermarks));
-        }
-
-        if ($watermarks instanceof FilesystemInterface) {
-            return $watermarks;
-        }
-
-        throw new InvalidArgumentException('Invalid `watermarks` parameter.');
     }
 
     /**
-     * Get the cache file system.
-     * @return FilesystemInterface The cache file system.
+     * Get cache file system.
+     * @return FilesystemInterface Cache file system.
      */
     public function getCache()
     {
-        $cache = null;
-
-        if (isset($this->config['cache'])) {
-            $cache = $this->config['cache'];
+        if (!isset($this->config['cache'])) {
+            throw new InvalidArgumentException('A "cache" file system must be set.');
         }
 
-        if (is_string($cache)) {
-            return new Filesystem(new Local($cache));
+        if (is_string($this->config['cache'])) {
+            return new Filesystem(
+                new Local($this->config['cache'])
+            );
         }
 
-        if ($cache instanceof FilesystemInterface) {
-            return $cache;
-        }
-
-        throw new InvalidArgumentException('Invalid `cache` parameter.');
+        return $this->config['cache'];
     }
 
     /**
-     * Get the base URL.
-     * @return string The base URL.
+     * Get cache path prefix.
+     * @return string|null Cache path prefix.
      */
-    public function getBaseUrl()
-    {
-        $baseUrl = '';
-
-        if (isset($this->config['base_url'])) {
-            $baseUrl = $this->config['base_url'];
-        }
-
-        return $baseUrl;
-    }
-
-    public function getSourcePathPrefix()
-    {
-        $sourcePathPrefix = '';
-
-        if (isset($this->config['source_path_prefix'])) {
-            $sourcePathPrefix = $this->config['source_path_prefix'];
-        }
-
-        return $sourcePathPrefix;
-    }
-
     public function getCachePathPrefix()
     {
-        $cachePathPrefix = '';
-
         if (isset($this->config['cache_path_prefix'])) {
-            $cachePathPrefix = $this->config['cache_path_prefix'];
+            return $this->config['cache_path_prefix'];
         }
-
-        return $cachePathPrefix;
-    }
-
-    public function getWatermarksPathPrefix()
-    {
-        $watermarksPathPrefix = '';
-
-        if (isset($this->config['watermarks_path_prefix'])) {
-            $watermarksPathPrefix = $this->config['watermarks_path_prefix'];
-        }
-
-        return $watermarksPathPrefix;
     }
 
     /**
-     * Get the image manipulation API.
-     * @return Api The image manipulation API.
+     * Get the group cache in folders setting.
+     * @return bool Whether to group cache in folders.
+     */
+    public function getGroupCacheInFolders()
+    {
+        if (isset($this->config['group_cache_in_folders'])) {
+            return $this->config['group_cache_in_folders'];
+        }
+
+        return true;
+    }
+
+    /**
+     * Get watermarks file system.
+     * @return FilesystemInterface|null Watermarks file system.
+     */
+    public function getWatermarks()
+    {
+        if (!isset($this->config['watermarks'])) {
+            return;
+        }
+
+        if (is_string($this->config['watermarks'])) {
+            return new Filesystem(
+                new Local($this->config['watermarks'])
+            );
+        }
+
+        return $this->config['watermarks'];
+    }
+
+    /**
+     * Get watermarks path prefix.
+     * @return string|null Watermarks path prefix.
+     */
+    public function getWatermarksPathPrefix()
+    {
+        if (isset($this->config['watermarks_path_prefix'])) {
+            return $this->config['watermarks_path_prefix'];
+        }
+    }
+
+    /**
+     * Get image manipulation API.
+     * @return Api Image manipulation API.
      */
     public function getApi()
     {
@@ -195,7 +180,7 @@ class ServerFactory
     }
 
     /**
-     * Get the image manager.
+     * Get Intervention image manager.
      * @return ImageManager Intervention image manager.
      */
     public function getImageManager()
@@ -212,8 +197,8 @@ class ServerFactory
     }
 
     /**
-     * Get the default manipulators.
-     * @return array Collection of manipulators.
+     * Get image manipulators.
+     * @return array Image manipulators.
      */
     public function getManipulators()
     {
@@ -236,43 +221,68 @@ class ServerFactory
     }
 
     /**
-     * Get the maximum image size in pixels.
-     * @return int|null Maximum image size in pixels.
+     * Get maximum image size.
+     * @return int|null Maximum image size.
      */
     public function getMaxImageSize()
     {
-        $maxImageSize = null;
-
         if (isset($this->config['max_image_size'])) {
-            $maxImageSize = $this->config['max_image_size'];
+            return $this->config['max_image_size'];
         }
-
-        return $maxImageSize;
     }
 
     /**
-     * Get the response factory.
-     * @return ResponseFactoryInterface The response factory.
+     * Get default image manipulations.
+     * @return array Default image manipulations.
+     */
+    public function getDefaults()
+    {
+        if (isset($this->config['defaults'])) {
+            return $this->config['defaults'];
+        }
+
+        return [];
+    }
+
+    /**
+     * Get preset image manipulations.
+     * @return array Preset image manipulations.
+     */
+    public function getPresets()
+    {
+        if (isset($this->config['presets'])) {
+            return $this->config['presets'];
+        }
+
+        return [];
+    }
+
+    /**
+     * Get base URL.
+     * @return string|null Base URL.
+     */
+    public function getBaseUrl()
+    {
+        if (isset($this->config['base_url'])) {
+            return $this->config['base_url'];
+        }
+    }
+
+    /**
+     * Get response factory.
+     * @return ResponseFactoryInterface|null Response factory.
      */
     public function getResponseFactory()
     {
-        $responseFactory = null;
-
         if (isset($this->config['response'])) {
-            $responseFactory = $this->config['response'];
+            return $this->config['response'];
         }
-
-        if ($responseFactory instanceof ResponseFactoryInterface) {
-            return $responseFactory;
-        }
-
-        throw new InvalidArgumentException('Invalid `response` parameter.');
     }
 
     /**
-     * Create server instance.
+     * Create configured server.
      * @param  array  $config Configuration parameters.
-     * @return Server The configured server.
+     * @return Server Configured server.
      */
     public static function create(array $config = [])
     {

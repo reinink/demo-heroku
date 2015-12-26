@@ -10,22 +10,23 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/thephpleague/glide.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpleague/glide)
 [![Total Downloads](https://img.shields.io/packagist/dt/league/glide.svg?style=flat-square)](https://packagist.org/packages/league/glide)
 
-Glide is a wonderfully easy on-demand image manipulation library written in PHP. It's straightforward API is exposed via HTTP, similar to cloud image processing services like [Imgix](http://www.imgix.com/) and [Cloudinary](http://cloudinary.com/). Glide leverages powerful libraries like [Intervention Image](http://image.intervention.io/) (for image handling and manipulation) and [Flysystem](http://flysystem.thephpleague.com/) (for file system abstraction).
+Glide is a wonderfully easy on-demand image manipulation library written in PHP. Its straightforward API is exposed via HTTP, similar to cloud image processing services like [Imgix](http://www.imgix.com/) and [Cloudinary](http://cloudinary.com/). Glide leverages powerful libraries like [Intervention Image](http://image.intervention.io/) (for image handling and manipulation) and [Flysystem](http://flysystem.thephpleague.com/) (for file system abstraction).
 
-[![© Photo Joel Reynolds](https://glide.herokuapp.com/kayaks.jpg?w=1000)](https://glide.herokuapp.com/kayaks.jpg?w=1000)
+[![© Photo Joel Reynolds](https://glide.herokuapp.com/1.0/kayaks.jpg?w=1000)](https://glide.herokuapp.com/1.0/kayaks.jpg?w=1000)
 > © Photo Joel Reynolds
 
 ## Highlights
 
-- Adjust, resize and add effects to images using a simple HTTP based API
-- Manipulated images are automatically cached and served with far-future expires headers
-- Create your own image processing server or integrate Glide directly into your app
-- Supports both the [GD](http://php.net/manual/en/book.image.php) library and the [Imagick](http://php.net/manual/en/book.imagick.php) PHP extension
-- Ability to secure image URLs using HTTP signatures
-- Works with many different file systems, thanks to the [Flysystem](http://flysystem.thephpleague.com/) library
-- Powered by the battle tested [Intervention Image](http://image.intervention.io/) image handling and manipulation library
-- Framework-agnostic, will work with any project
-- Composer ready and PSR-2 compliant
+- Adjust, resize and add effects to images using a simple HTTP based API.
+- Manipulated images are automatically cached and served with far-future expires headers.
+- Create your own image processing server or integrate Glide directly into your app.
+- Supports both the [GD](http://php.net/manual/en/book.image.php) library and the [Imagick](http://php.net/manual/en/book.imagick.php) PHP extension.
+- Supports many response methods, including PSR-7, HttpFoundation and more.
+- Ability to secure image URLs using HTTP signatures.
+- Works with many different file systems, thanks to the [Flysystem](http://flysystem.thephpleague.com/) library.
+- Powered by the battle tested [Intervention Image](http://image.intervention.io/) image handling and manipulation library.
+- Framework-agnostic, will work with any project.
+- Composer ready and PSR-2 compliant.
 
 ## Documentation
 

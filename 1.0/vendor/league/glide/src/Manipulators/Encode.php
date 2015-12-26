@@ -4,6 +4,10 @@ namespace League\Glide\Manipulators;
 
 use Intervention\Image\Image;
 
+/**
+ * @property string $fm
+ * @property string $q
+ */
 class Encode extends BaseManipulator
 {
     /**
@@ -24,7 +28,7 @@ class Encode extends BaseManipulator
         if ($format === 'jpg') {
             $image = $image->getDriver()
                            ->newImage($image->width(), $image->height(), '#fff')
-                           ->insert($image);
+                           ->insert($image, 'top-left', 0, 0);
         }
 
         return $image->encode($format, $quality);

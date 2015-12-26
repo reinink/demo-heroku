@@ -4,6 +4,9 @@ namespace League\Glide\Manipulators;
 
 use Intervention\Image\Image;
 
+/**
+ * @property string $sharp
+ */
 class Sharpen extends BaseManipulator
 {
     /**
@@ -15,7 +18,7 @@ class Sharpen extends BaseManipulator
     {
         $sharpen = $this->getSharpen();
 
-        if ($sharpen) {
+        if ($sharpen !== null) {
             $image->sharpen($sharpen);
         }
 

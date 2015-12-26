@@ -8,8 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
-    'League\\Glide\\Responses\\' => array($vendorDir . '/league/glide-symfony/src'),
-    'League\\Glide\\' => array($vendorDir . '/league/glide/src'),
+    'League\\Glide\\' => array($vendorDir . '/league/glide/src', $vendorDir . '/league/glide-symfony/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'Intervention\\Image\\' => array($vendorDir . '/intervention/image/src/Intervention/Image'),
+    'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
 );

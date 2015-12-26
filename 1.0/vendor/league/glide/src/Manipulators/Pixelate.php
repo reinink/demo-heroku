@@ -4,6 +4,9 @@ namespace League\Glide\Manipulators;
 
 use Intervention\Image\Image;
 
+/**
+ * @property string $pixel
+ */
 class Pixelate extends BaseManipulator
 {
     /**
@@ -15,7 +18,7 @@ class Pixelate extends BaseManipulator
     {
         $pixelate = $this->getPixelate();
 
-        if ($pixelate) {
+        if ($pixelate !== null) {
             $image->pixelate($pixelate);
         }
 

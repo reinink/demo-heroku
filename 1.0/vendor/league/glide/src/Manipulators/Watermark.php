@@ -4,8 +4,20 @@ namespace League\Glide\Manipulators;
 
 use Intervention\Image\Image;
 use League\Flysystem\FilesystemInterface;
+use League\Glide\Filesystem\FilesystemException;
 use League\Glide\Manipulators\Helpers\Dimension;
 
+/**
+ * @property string $dpr
+ * @property string $mark
+ * @property string $markfit
+ * @property string $markh
+ * @property string $markpad
+ * @property string $markpos
+ * @property string $markw
+ * @property string $markx
+ * @property string $marky
+ */
 class Watermark extends BaseManipulator
 {
     /**
@@ -16,7 +28,7 @@ class Watermark extends BaseManipulator
 
     /**
      * The watermarks path prefix.
-     * @var string|null
+     * @var string
      */
     protected $watermarksPathPrefix;
 
@@ -24,7 +36,7 @@ class Watermark extends BaseManipulator
      * Create Watermark instance.
      * @param FilesystemInterface $watermarks The watermarks file system.
      */
-    public function __construct(FilesystemInterface $watermarks = null, $watermarksPathPrefix = null)
+    public function __construct(FilesystemInterface $watermarks = null, $watermarksPathPrefix = '')
     {
         $this->setWatermarks($watermarks);
         $this->setWatermarksPathPrefix($watermarksPathPrefix);
@@ -52,7 +64,7 @@ class Watermark extends BaseManipulator
      * Set the watermarks path prefix.
      * @param string $watermarksPathPrefix The watermarks path prefix.
      */
-    public function setWatermarksPathPrefix($watermarksPathPrefix = null)
+    public function setWatermarksPathPrefix($watermarksPathPrefix = '')
     {
         $this->watermarksPathPrefix = trim($watermarksPathPrefix, '/');
     }
@@ -136,8 +148,6 @@ class Watermark extends BaseManipulator
 
             return $image->getDriver()->init($source);
         }
-
-        return;
     }
 
     /**
