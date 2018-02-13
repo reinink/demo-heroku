@@ -136,9 +136,11 @@ class Server
     public function getSourcePath($path)
     {
         $path = trim($path, '/');
+        
+        $baseUrl = $this->baseUrl.'/';
 
-        if (substr($path, 0, strlen($this->baseUrl)) === $this->baseUrl) {
-            $path = trim(substr($path, strlen($this->baseUrl)), '/');
+        if (substr($path, 0, strlen($baseUrl)) === $baseUrl) {
+            $path = trim(substr($path, strlen($baseUrl)), '/');
         }
 
         if ($path === '') {
@@ -279,7 +281,9 @@ class Server
         }
         
         if ($this->cacheWithFileExtensions) {
-            $cachedPath .= '.'.(isset($params['fm']) ? $params['fm'] : pathinfo($path)['extension']);
+            $ext = (isset($params['fm']) ? $params['fm'] : pathinfo($path)['extension']);
+            $ext = ($ext === 'pjpg') ? 'jpg' : $ext;
+            $cachedPath .= '.'.$ext;
         }
 
         return $cachedPath;

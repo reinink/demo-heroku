@@ -39,7 +39,7 @@ class JsonResponse extends Response
      * @param array $headers An array of response headers
      * @param bool  $json    If the data is already a JSON string
      */
-    public function __construct($data = null, $status = 200, $headers = array(), $json = false)
+    public function __construct($data = null, int $status = 200, array $headers = array(), bool $json = false)
     {
         parent::__construct('', $status, $headers);
 
@@ -62,7 +62,7 @@ class JsonResponse extends Response
      * @param int   $status  The response status code
      * @param array $headers An array of response headers
      *
-     * @return JsonResponse
+     * @return static
      */
     public static function create($data = null, $status = 200, $headers = array())
     {
@@ -70,19 +70,27 @@ class JsonResponse extends Response
     }
 
     /**
+     * Make easier the creation of JsonResponse from raw json.
+     */
+    public static function fromJsonString($data = null, $status = 200, $headers = array())
+    {
+        return new static($data, $status, $headers, true);
+    }
+
+    /**
      * Sets the JSONP callback.
      *
      * @param string|null $callback The JSONP callback or null to use none
      *
-     * @return JsonResponse
+     * @return $this
      *
      * @throws \InvalidArgumentException When the callback name is not valid
      */
     public function setCallback($callback = null)
     {
         if (null !== $callback) {
-            // partially token from http://www.geekality.net/2011/08/03/valid-javascript-identifier/
-            // partially token from https://github.com/willdurand/JsonpCallbackValidator
+            // partially taken from http://www.geekality.net/2011/08/03/valid-javascript-identifier/
+            // partially taken from https://github.com/willdurand/JsonpCallbackValidator
             //      JsonpCallbackValidator is released under the MIT License. See https://github.com/willdurand/JsonpCallbackValidator/blob/v1.1.0/LICENSE for details.
             //      (c) William Durand <william.durand1@gmail.com>
             $pattern = '/^[$_\p{L}][$_\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]*(?:\[(?:"(?:\\\.|[^"\\\])*"|\'(?:\\\.|[^\'\\\])*\'|\d+)\])*?$/u';
@@ -109,7 +117,7 @@ class JsonResponse extends Response
      *
      * @param string $json
      *
-     * @return JsonResponse
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
@@ -125,29 +133,19 @@ class JsonResponse extends Response
      *
      * @param mixed $data
      *
-     * @return JsonResponse
+     * @return $this
      *
      * @throws \InvalidArgumentException
      */
     public function setData($data = array())
     {
-        if (defined('HHVM_VERSION')) {
-            // HHVM does not trigger any warnings and let exceptions
-            // thrown from a JsonSerializable object pass through.
-            // If only PHP did the same...
+        try {
             $data = json_encode($data, $this->encodingOptions);
-        } else {
-            try {
-                // PHP 5.4 and up wrap exceptions thrown by JsonSerializable
-                // objects in a new exception that needs to be removed.
-                // Fortunately, PHP 5.5 and up do not trigger any warning anymore.
-                $data = json_encode($data, $this->encodingOptions);
-            } catch (\Exception $e) {
-                if ('Exception' === get_class($e) && 0 === strpos($e->getMessage(), 'Failed calling ')) {
-                    throw $e->getPrevious() ?: $e;
-                }
-                throw $e;
+        } catch (\Exception $e) {
+            if ('Exception' === get_class($e) && 0 === strpos($e->getMessage(), 'Failed calling ')) {
+                throw $e->getPrevious() ?: $e;
             }
+            throw $e;
         }
 
         if (JSON_ERROR_NONE !== json_last_error()) {
@@ -172,7 +170,7 @@ class JsonResponse extends Response
      *
      * @param int $encodingOptions
      *
-     * @return JsonResponse
+     * @return $this
      */
     public function setEncodingOptions($encodingOptions)
     {
@@ -184,7 +182,7 @@ class JsonResponse extends Response
     /**
      * Updates the content and headers according to the JSON data and callback.
      *
-     * @return JsonResponse
+     * @return $this
      */
     protected function update()
     {

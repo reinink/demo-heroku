@@ -70,6 +70,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     {
         $this->server->setBaseUrl('img/');
         $this->assertEquals('image.jpg', $this->server->getSourcePath('img/image.jpg'));
+
+        // Test for a bug where if the path starts with the same substring as the base url, the source
+        // path would trim the base url off the filename. eg, the following would've returned 'ur.jpg'
+        $this->assertEquals('imgur.jpg', $this->server->getSourcePath('imgur.jpg'));
     }
 
     public function testGetSourcePathWithPrefix()
@@ -188,35 +192,59 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->server->setSourcePathPrefix('img/');
         $this->assertEquals('image.jpg/75094881e9fd2b93063d6a5cb083091c', $this->server->getCachePath('image.jpg', []));
     }
-    
+
     public function testGetCachePathWithExtension()
     {
         $this->server->setCacheWithFileExtensions(true);
         $this->assertEquals('image.jpg/75094881e9fd2b93063d6a5cb083091c.jpg', $this->server->getCachePath('image.jpg', []));
     }
-    
+
     public function testGetCachePathWithExtensionAndFmParam()
     {
         $this->server->setCacheWithFileExtensions(true);
         $this->assertEquals('image.jpg/eb6091e07fb06219634a3c82afb88239.gif', $this->server->getCachePath('image.jpg', ['fm' => 'gif']));
     }
-    
+
+    public function testGetCachePathWithExtensionAndPjpgFmParam()
+    {
+        $this->server->setCacheWithFileExtensions(true);
+        $this->assertEquals('image.jpg/ce5cb75f4a37dec0a0a49854e94123eb.jpg', $this->server->getCachePath('image.jpg', ['fm' => 'pjpg']));
+    }
+
     public function testGetCachePathWithExtensionAndFmFromDefaults()
     {
         $this->server->setCacheWithFileExtensions(true);
         $this->server->setDefaults(['fm' => 'gif']);
         $this->assertEquals('image.jpg/eb6091e07fb06219634a3c82afb88239.gif', $this->server->getCachePath('image.jpg', []));
     }
-    
+
+    public function testGetCachePathWithExtensionAndPjpgFmFromDefaults()
+    {
+        $this->server->setCacheWithFileExtensions(true);
+        $this->server->setDefaults(['fm' => 'pjpg']);
+        $this->assertEquals('image.jpg/ce5cb75f4a37dec0a0a49854e94123eb.jpg', $this->server->getCachePath('image.jpg', []));
+    }
+
     public function testGetCachePathWithExtensionAndFmFromPreset()
     {
         $this->server->setCacheWithFileExtensions(true);
-        
+
         $this->server->setPresets(['gif' => [
-            'fm' => 'gif'
+            'fm' => 'gif',
         ]]);
-        
+
         $this->assertEquals('image.jpg/eb6091e07fb06219634a3c82afb88239.gif', $this->server->getCachePath('image.jpg', ['p' => 'gif']));
+    }
+
+    public function testGetCachePathWithExtensionAndPjpgFmFromPreset()
+    {
+        $this->server->setCacheWithFileExtensions(true);
+
+        $this->server->setPresets(['pjpg' => [
+            'fm' => 'pjpg',
+        ]]);
+
+        $this->assertEquals('image.jpg/ce5cb75f4a37dec0a0a49854e94123eb.jpg', $this->server->getCachePath('image.jpg', ['p' => 'pjpg']));
     }
 
     public function testCacheFileExists()
